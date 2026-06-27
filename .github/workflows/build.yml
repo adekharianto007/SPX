@@ -1,5 +1,18 @@
 name: Build Android APK
 
+# Workflow ini menjalankan Buildozer di server Linux milik GitHub
+# (gratis untuk repo publik), supaya Anda tidak perlu install Linux/WSL
+# atau Android SDK/NDK apa pun di laptop sendiri.
+#
+# Cara pakai:
+# 1. Push semua isi folder ini (termasuk file .github/workflows/build.yml
+#    ini) ke repo GitHub Anda.
+# 2. Buka tab "Actions" di repo GitHub Anda — build akan berjalan otomatis.
+# 3. Setelah selesai (sekitar 20-40 menit untuk build pertama kali),
+#    download APK dari bagian "Artifacts" di halaman hasil run tersebut.
+#
+# Bisa juga dipicu manual lewat tab Actions -> pilih workflow ini -> "Run workflow".
+
 on:
   push:
     branches: [ main, master ]
@@ -36,6 +49,16 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install buildozer==1.5.0 cython==0.29.36
+          # Catatan: versi python-for-android DIKUNCI lewat "p4a.branch"
+          # di buildozer.spec (bukan lewat pip install di sini), karena
+          # Buildozer akan men-clone p4a langsung dari GitHub sesuai branch/tag
+          # yang ditentukan di buildozer.spec.
+
+      - name: Bersihkan cache p4a versi lama (jaga-jaga ada cache basi)
+        run: |
+          rm -rf ~/.buildozer/android/platform/python-for-android
+          rm -rf .buildozer/android/platform/python-for-android
+        continue-on-error: true
 
       - name: Cache Buildozer (Android SDK/NDK) antar-run
         uses: actions/cache@v4
