@@ -45,14 +45,27 @@ jobs:
             libtinfo5 cmake libffi-dev libssl-dev build-essential \
             ccache automake libltdl-dev
 
-      - name: Install Buildozer & Cython
+      - name: Install Buildozer, Cython & python-for-android dari PyPI
         run: |
           pip install --upgrade pip
-          pip install buildozer==1.5.0 cython==0.29.36
-          # Catatan: versi python-for-android DIKUNCI lewat "p4a.branch"
-          # di buildozer.spec (bukan lewat pip install di sini), karena
-          # Buildozer akan men-clone p4a langsung dari GitHub sesuai branch/tag
-          # yang ditentukan di buildozer.spec.
+          # Install python-for-android dari PyPI (paket resmi, versi rilis
+          # tetap) SEBELUM buildozer dijalankan. Ini penting: kalau p4a
+          # sudah terpasang sebagai paket Python biasa, Buildozer akan
+          # memakainya langsung dan TIDAK akan mencoba "git clone" branch
+          # master dari GitHub (yang versinya terus berubah dan sempat
+          # menyebabkan target Python di Android jadi 3.14 -- versi yang
+          # belum didukung penuh oleh kivy/pyjnius, menyebabkan build
+          # sebelumnya gagal).
+          pip install buildozer==1.5.0 cython==0.29.36 python-for-android
+
+      - name: Diagnostik versi yang terpasang (bantu debug kalau gagal lagi)
+        run: |
+          echo "Versi buildozer:"
+          pip show buildozer | grep Version
+          echo "Versi python-for-android:"
+          pip show python-for-android | grep Version
+          echo "Lokasi p4a:"
+          python3 -c "import pythonforandroid, os; print(os.path.dirname(pythonforandroid.__file__))"
 
       - name: Bersihkan cache p4a versi lama (jaga-jaga ada cache basi)
         run: |
@@ -85,7 +98,13 @@ jobs:
 
       - name: Build APK debug
         run: |
-          yes | buildozer android debug
+          set -o pipefail
+          yes | buildozer android debug 2>&1 | tee build_log.txt
+          echo "---"
+          echo "Cek apakah p4a sempat di-clone ulang dari git (tanda asumsi pip-install gagal terpakai):"
+          if grep -q "Cloning into 'python-for-android'" build_log.txt; then
+            echo "::warning::python-for-android ternyata tetap di-clone dari GitHub master, bukan memakai versi pip. Kalau build ini gagal lagi dengan error 'Could not find a version that satisfies', kemungkinan besar ini penyebabnya."
+          fi
 
       - name: Upload APK sebagai artifact
         uses: actions/upload-artifact@v4
