@@ -16,16 +16,10 @@ version = 1.0
 # CATATAN PENTING soal versi Python target di Android:
 # python-for-android (p4a) menentukan sendiri versi Python yang dikompilasi
 # ke dalam APK berdasarkan resep (recipe) python3 yang dipakai. Build
-# sebelumnya gagal karena p4a memilih Python 3.14, sementara pyjnius
-# (jembatan ke Java) memakai sintaks lama yang sudah dibuang Cython modern
-# untuk target sebaru itu. "python3" di requirements TIDAK mengunci versi
-# minor secara langsung lewat buildozer.spec biasa -- versi sesungguhnya
-# ditentukan oleh resep python3 di dalam python-for-android itu sendiri.
-# Karena itu, perbaikan utama untuk masalah ini ada di langkah CI
-# (.github/workflows/build.yml), bukan di sini: di sana kita memaksa p4a
-# yang dipakai berasal dari rilis PyPI yang sudah teruji (bukan clone
-# langsung dari branch master GitHub yang versinya terus berubah).
-requirements = python3,kivy==2.3.0,pyjnius==1.6.1,android
+# sebelumnya gagal karena p4a memilih Python 3.14, sementara pyjnius 1.6.1
+# tidak kompatibel. Solusi: upgrade pyjnius ke versi 1.7+ yang support
+# Python 3.14+, atau gunakan python3.11 secara eksplisit melalui p4a recipe.
+requirements = python3,kivy==2.3.0,pyjnius==1.7.1,android
 
 orientation = portrait
 fullscreen = 0
