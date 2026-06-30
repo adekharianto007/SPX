@@ -13,12 +13,12 @@ version = 1.0
 # Kivy hanya dipakai sebagai shell minimal; kamera & rendering
 # sesungguhnya ditangani Android WebView native.
 #
-# CATATAN PENTING soal versi Python target di Android:
-# Sebelumnya, python-for-android (p4a) memilih Python 3.14 secara otomatis,
-# yang tidak memiliki binary wheel stabil untuk pyjnius. Solusi: lock Python
-# ke 3.11 yang sudah mature dan memiliki wheel support lengkap.
-python3-version = 3.11
-requirements = python3,kivy==2.3.0,pyjnius==1.4.7,android
+# CATATAN: Pyjnius dihapus dari requirements karena aplikasi ini
+# menggunakan WebView untuk rendering, bukan JNI calls ke Java.
+# Pyjnius hanya dibutuhkan jika ada komunikasi langsung ke Java API,
+# yang tidak ada di sini. Ini mempercepat build dan menghilangkan
+# dependency issues yang kompleks.
+requirements = python3,kivy==2.3.0,android
 
 orientation = portrait
 fullscreen = 0
