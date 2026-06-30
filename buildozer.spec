@@ -17,9 +17,9 @@ version = 1.0
 # python-for-android (p4a) menentukan sendiri versi Python yang dikompilasi
 # ke dalam APK berdasarkan resep (recipe) python3 yang dipakai. Build
 # sebelumnya gagal karena p4a memilih Python 3.14, sementara pyjnius
-# tidak ada binary wheel untuk kombinasi tersebut. Solusi: gunakan
-# pyjnius versi yang stabil dengan binary wheel tersedia (1.5.3).
-requirements = python3,kivy==2.3.0,pyjnius==1.5.3,android
+# tidak memiliki binary wheel stabil untuk kombinasi tersebut.
+# Solusi: gunakan pyjnius versi lama (1.4.7) yang sudah proven stable.
+requirements = python3,kivy==2.3.0,pyjnius==1.4.7,android
 
 orientation = portrait
 fullscreen = 0
@@ -37,7 +37,7 @@ add_src = src
 android.permissions = CAMERA,INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
 # WebView modern (getUserMedia, dsb) butuh minimal API yang cukup baru.
-android.minapi = 24
+android.minapi = 21
 android.api = 34
 android.ndk = 25b
 android.archs = arm64-v8a,armeabi-v7a
