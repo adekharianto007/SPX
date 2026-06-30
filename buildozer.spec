@@ -16,10 +16,10 @@ version = 1.0
 # CATATAN PENTING soal versi Python target di Android:
 # python-for-android (p4a) menentukan sendiri versi Python yang dikompilasi
 # ke dalam APK berdasarkan resep (recipe) python3 yang dipakai. Build
-# sebelumnya gagal karena p4a memilih Python 3.14, sementara pyjnius 1.6.1
-# tidak kompatibel. Solusi: upgrade pyjnius ke versi 1.7+ yang support
-# Python 3.14+, atau gunakan python3.11 secara eksplisit melalui p4a recipe.
-requirements = python3,kivy==2.3.0,pyjnius==1.7.1,android
+# sebelumnya gagal karena p4a memilih Python 3.14, sementara pyjnius
+# tidak ada binary wheel untuk kombinasi tersebut. Solusi: gunakan
+# pyjnius versi yang stabil dengan binary wheel tersedia (1.5.3).
+requirements = python3,kivy==2.3.0,pyjnius==1.5.3,android
 
 orientation = portrait
 fullscreen = 0
