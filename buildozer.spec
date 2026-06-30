@@ -14,11 +14,10 @@ version = 1.0
 # sesungguhnya ditangani Android WebView native.
 #
 # CATATAN PENTING soal versi Python target di Android:
-# python-for-android (p4a) menentukan sendiri versi Python yang dikompilasi
-# ke dalam APK berdasarkan resep (recipe) python3 yang dipakai. Build
-# sebelumnya gagal karena p4a memilih Python 3.14, sementara pyjnius
-# tidak memiliki binary wheel stabil untuk kombinasi tersebut.
-# Solusi: gunakan pyjnius versi lama (1.4.7) yang sudah proven stable.
+# Sebelumnya, python-for-android (p4a) memilih Python 3.14 secara otomatis,
+# yang tidak memiliki binary wheel stabil untuk pyjnius. Solusi: lock Python
+# ke 3.11 yang sudah mature dan memiliki wheel support lengkap.
+python3-version = 3.11
 requirements = python3,kivy==2.3.0,pyjnius==1.4.7,android
 
 orientation = portrait
