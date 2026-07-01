@@ -16,7 +16,9 @@ version = 1.0
 # CATATAN: Downgrade Kivy ke 2.1.0 yang stable dan support Python 3.10+
 # tanpa issue Cython dengan Python 3.14. Versi 2.3.0 belum fully support
 # Python 3.14 API changes dalam compiled C extensions.
-requirements = python3,kivy==2.1.0,android
+#
+# pyjnius WAJIB ada untuk komunikasi Python → Java (WebView setup & bridge).
+requirements = python3,kivy==2.1.0,pyjnius,android
 
 orientation = portrait
 fullscreen = 0
@@ -43,5 +45,8 @@ android.allow_backup = True
 
 # Diperlukan agar PermissionRequest.grant() & androidx tersedia.
 android.gradle_dependencies = androidx.core:core:1.12.0
+
+# Declare camera hardware features
+android.features = android.hardware.camera,android.hardware.camera.autofocus
 
 p4a.bootstrap = sdl2
