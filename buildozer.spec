@@ -13,12 +13,12 @@ version = 1.0
 # Kivy hanya dipakai sebagai shell minimal; kamera & rendering
 # sesungguhnya ditangani Android WebView native.
 #
-# CATATAN: Downgrade Kivy ke 2.1.0 yang stable dan support Python 3.10+
-# tanpa issue Cython dengan Python 3.14. Versi 2.3.0 belum fully support
-# Python 3.14 API changes dalam compiled C extensions.
+# CATATAN: Gunakan Kivy 2.0.0 - versi stabil terakhir yang fully support
+# Android builds dengan p4a (Python for Android). Versi 2.1.0 memiliki
+# issue dependency resolution pada Android (config.pxi not found).
 #
 # pyjnius WAJIB ada untuk komunikasi Python → Java (WebView setup & bridge).
-requirements = python3,kivy==2.1.0,pyjnius,android
+requirements = python3,kivy==2.0.0,pyjnius,android
 
 orientation = portrait
 fullscreen = 0
