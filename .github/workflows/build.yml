@@ -66,12 +66,11 @@ jobs:
           pip show python-for-android | grep Version
           echo "Lokasi p4a:"
           python3 -c "import pythonforandroid, os; print(os.path.dirname(pythonforandroid.__file__))"
-
-     - name: Bersihkan cache Buildozer + p4a sepenuhnya (fresh start untuk Kivy 2.0.0)
-  run: |
-    rm -rf ~/.buildozer
-    rm -rf .buildozer
-  continue-on-error: true
+      - name: Bersihkan cache Buildozer + p4a sepenuhnya (fresh start untuk Kivy 1.11.1)
+        run: |
+          rm -rf ~/.buildozer
+          rm -rf .buildozer
+        continue-on-error: true
 
       - name: Cache Buildozer (Android SDK/NDK) antar-run
         uses: actions/cache@v4
